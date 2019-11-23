@@ -1,10 +1,11 @@
 import React from 'react';
 import './App.css';
+import Movie from './components/movie';
 
 function App() {
   return (
     <div className='App'>
-      <h2>Hello World!</h2>
+      <Movie></Movie>
     </div>
   );
 }
