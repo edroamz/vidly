@@ -1,20 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import 'bootstrap/dist/css/bootstrap.css';
-import { getMovies } from '../services/fakeMovieService';
+import React from 'react';
 
-const Movie = () => {
-  const [movies, updateMovies] = useState([]);
-
-  useEffect(() => {
-    updateMovies(getMovies());
-  }, []);
+const Movie = ({ movies, onDelete }) => {
+  function handleDelete(event) {
+    onDelete(event.target.id);
+  }
 
   return (
     <>
       {movies.length === 0 ? (
-        <p>There are no movies in the database</p>
+        <p className='mt-4 mb-4'>There are no movies in the database</p>
       ) : (
-        <p>Showing {movies.length} movies in the database</p>
+        <p className='mt-4 mb-4'>
+          Showing {movies.length} movies in the database
+        </p>
       )}
       <table className='table'>
         <thead>
@@ -36,11 +34,8 @@ const Movie = () => {
                 <td>{movie.dailyRentalRate}</td>
                 <td>
                   <button
-                    onClick={() => {
-                      updateMovies(movies =>
-                        movies.filter(m => m._id !== movie._id)
-                      );
-                    }}
+                    onClick={handleDelete}
+                    id={movie._id}
                     className='btn btn-danger btn-sm'
                   >
                     Delete
