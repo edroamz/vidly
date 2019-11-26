@@ -1,8 +1,13 @@
 import React from 'react';
+import Like from './common/like';
 
-const Movie = ({ movies, onDelete }) => {
+const Movies = ({ movies, onDelete, onLike }) => {
   function handleDelete(event) {
     onDelete(event.target.id);
+  }
+
+  function handleLike(movie) {
+    onLike(movie)
   }
 
   return (
@@ -22,6 +27,7 @@ const Movie = ({ movies, onDelete }) => {
             <th scope='col'>Stock</th>
             <th scope='col'>Rate</th>
             <th scope='col'></th>
+            <th scope='col'></th>
           </tr>
         </thead>
         <tbody>
@@ -32,6 +38,9 @@ const Movie = ({ movies, onDelete }) => {
                 <td>{movie.genre.name}</td>
                 <td>{movie.numberInStock}</td>
                 <td>{movie.dailyRentalRate}</td>
+                <td>
+                <Like liked={movie.liked} onClick={() => handleLike(movie)}></Like>
+                </td>
                 <td>
                   <button
                     onClick={handleDelete}
@@ -49,4 +58,4 @@ const Movie = ({ movies, onDelete }) => {
   );
 };
 
-export default Movie;
+export default Movies;
