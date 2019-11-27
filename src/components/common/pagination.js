@@ -11,7 +11,7 @@ const Pagination = props => {
   pages = pages.filter(n => n !== 0);
 
   return (
-    <nav aria-label='Page navigation example'>
+    <nav>
       <ul className='pagination'>
         {pages.map(page => {
           return (

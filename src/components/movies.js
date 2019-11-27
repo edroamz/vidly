@@ -14,7 +14,7 @@ const Movies = ({ movies, onDelete, onLike }) => {
 
   return (
     <>
-      <p className='mt-4 mb-4'>
+      <p>
         {count === 0
           ? 'There are no movies in the database'
           : `Showing ${count} movies in the database`}
