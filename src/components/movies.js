@@ -2,23 +2,23 @@ import React from 'react';
 import Like from './common/like';
 
 const Movies = ({ movies, onDelete, onLike }) => {
+  const { length: count } = movies;
+
   function handleDelete(event) {
     onDelete(event.target.id);
   }
 
   function handleLike(movie) {
-    onLike(movie)
+    onLike(movie);
   }
 
   return (
     <>
-      {movies.length === 0 ? (
-        <p className='mt-4 mb-4'>There are no movies in the database</p>
-      ) : (
-        <p className='mt-4 mb-4'>
-          Showing {movies.length} movies in the database
-        </p>
-      )}
+      <p className='mt-4 mb-4'>
+        {count === 0
+          ? 'There are no movies in the database'
+          : `Showing ${count} movies in the database`}
+      </p>
       <table className='table'>
         <thead>
           <tr>
@@ -39,7 +39,10 @@ const Movies = ({ movies, onDelete, onLike }) => {
                 <td>{movie.numberInStock}</td>
                 <td>{movie.dailyRentalRate}</td>
                 <td>
-                <Like liked={movie.liked} onClick={() => handleLike(movie)}></Like>
+                  <Like
+                    liked={movie.liked}
+                    onClick={() => handleLike(movie)}
+                  ></Like>
                 </td>
                 <td>
                   <button
