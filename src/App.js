@@ -8,12 +8,17 @@ import 'bootstrap/dist/css/bootstrap.css';
 import ListGroup from './components/common/listGroup';
 import Pagination from './components/common/pagination';
 import { paginate } from './utils/paginate';
+import { compareValues } from './utils/compare';
 
 function App() {
   const [allMovies, updateMovies] = useState([]);
   const [genres, updateGenres] = useState([]);
   const [currentPage, changeCurrentPage] = useState(1);
   const [selectedGenre, changeSelectedGenre] = useState({});
+  const [sortColumn, changeSortedColumn] = useState({
+    path: 'title',
+    order: 'asc'
+  });
 
   const pageSize = 4;
   const filtered =
@@ -22,7 +27,14 @@ function App() {
     Object.entries(selectedGenre).length > 0
       ? allMovies.filter(m => m.genre._id === selectedGenre._id)
       : allMovies;
-  const moviesPerPage = paginate(filtered, currentPage, pageSize);
+
+  const sorted = filtered.sort(
+    compareValues(sortColumn.path, sortColumn.order)
+  );
+  // const sorted = filtered
+  //   .concat()
+  //   .sort(sortByKeyAndOrder(sortColumn.path, sortColumn.order));
+  const moviesPerPage = paginate(sorted, currentPage, pageSize);
 
   useEffect(() => {
     updateMovies(getMovies());
@@ -51,6 +63,11 @@ function App() {
     changeCurrentPage(1);
   }
 
+  function handleSort(path) {
+    // console.log(path);
+    changeSortedColumn({ path, order: 'asc' });
+  }
+
   return (
     <div className='App'>
       <Navbar movies={allMovies}></Navbar>
@@ -68,6 +85,7 @@ function App() {
               movies={moviesPerPage}
               onDelete={handleDelete}
               onLike={handleLike}
+              onSort={handleSort}
             ></Movies>
             <Pagination
               itemsCount={filtered.length}
