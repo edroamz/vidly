@@ -20,22 +20,6 @@ function App() {
     order: 'asc'
   });
 
-  const pageSize = 4;
-  const filtered =
-    selectedGenre &&
-    selectedGenre._id &&
-    Object.entries(selectedGenre).length > 0
-      ? allMovies.filter(m => m.genre._id === selectedGenre._id)
-      : allMovies;
-
-  const sorted = filtered.sort(
-    compareValues(sortColumn.path, sortColumn.order)
-  );
-  // const sorted = filtered
-  //   .concat()
-  //   .sort(sortByKeyAndOrder(sortColumn.path, sortColumn.order));
-  const moviesPerPage = paginate(sorted, currentPage, pageSize);
-
   useEffect(() => {
     updateMovies(getMovies());
 
@@ -63,10 +47,23 @@ function App() {
     changeCurrentPage(1);
   }
 
-  function handleSort(path) {
-    // console.log(path);
-    changeSortedColumn({ path, order: 'asc' });
+  function handleSort(sortColumn) {
+    changeSortedColumn(sortColumn);
   }
+
+  const pageSize = 4;
+  const filtered =
+    selectedGenre &&
+    selectedGenre._id &&
+    Object.entries(selectedGenre).length > 0
+      ? allMovies.filter(m => m.genre._id === selectedGenre._id)
+      : allMovies;
+
+  const sorted = filtered.sort(
+    compareValues(sortColumn.path, sortColumn.order)
+  );
+
+  const moviesPerPage = paginate(sorted, currentPage, pageSize);
 
   return (
     <div className='App'>
@@ -86,6 +83,7 @@ function App() {
               onDelete={handleDelete}
               onLike={handleLike}
               onSort={handleSort}
+              sortColumn={sortColumn}
             ></Movies>
             <Pagination
               itemsCount={filtered.length}

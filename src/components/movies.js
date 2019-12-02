@@ -1,7 +1,7 @@
 import React from 'react';
 import MoviesTable from './moviesTable';
 
-const Movies = ({ movies, onDelete, onLike, onSort }) => {
+const Movies = ({ movies, onDelete, onLike, onSort, sortColumn }) => {
   const { length: count } = movies;
 
   return (
@@ -13,6 +13,7 @@ const Movies = ({ movies, onDelete, onLike, onSort }) => {
       </p>
       <MoviesTable
         movies={movies}
+        sortColumn={sortColumn}
         onDelete={onDelete}
         onLike={onLike}
         onSort={onSort}
