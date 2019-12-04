@@ -14,6 +14,31 @@ const TableHeader = ({ columns, sortColumn, onSort }) => {
     onSort({ ...sortColumnTemp });
   }
 
+  function renderSortIcon(column) {
+    if (sortColumn.path !== column.path) return null;
+    if (sortColumn.order === 'asc')
+      return (
+        <svg
+          xmlns='http://www.w3.org/2000/svg'
+          width='9'
+          height='9'
+          viewBox='0 0 24 24'
+        >
+          <path d='M0 21l12-18 12 18z' />
+        </svg>
+      );
+    return (
+      <svg
+        xmlns='http://www.w3.org/2000/svg'
+        width='9'
+        height='9'
+        viewBox='0 0 24 24'
+      >
+        <path d='M24 3l-12 18-12-18z' />
+      </svg>
+    );
+  }
+
   return (
     <thead>
       <tr>
@@ -23,7 +48,7 @@ const TableHeader = ({ columns, sortColumn, onSort }) => {
             onClick={() => raiseSort(column.path)}
             scope='col'
           >
-            {column.label}
+            {column.label} {renderSortIcon(column)}
           </th>
         ))}
       </tr>
