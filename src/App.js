@@ -6,6 +6,7 @@ import MovieForm from './components/movieForm';
 import Rentals from './components/rentals';
 import Customers from './components/customers';
 import NotFound from './components/notFound';
+import LoginForm from './components/loginForm';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 
@@ -16,6 +17,7 @@ function App() {
       <main className='main'>
         <div className='row mt-5'>
           <Switch>
+            <Route path='/login' component={LoginForm}></Route>
             <Route path='/movies/:id' component={MovieForm}></Route>
             <Route path='/movies' component={Movies}></Route>
             <Route path='/customers' component={Customers}></Route>

@@ -5,8 +5,6 @@ const MovieForm = ({ history, match }) => {
     history.push('/movies');
   }
 
-  console.log(match);
-
   return (
     <div>
       <h1>Movie Form {match.params.id}</h1>
