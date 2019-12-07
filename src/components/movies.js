@@ -6,6 +6,7 @@ import { paginate } from '../utils/paginate';
 import { compareValues } from '../utils/compare';
 import { getMovies } from '../services/fakeMovieService';
 import { getGenres } from '../services/fakeGenreService';
+import { Link } from 'react-router-dom';
 
 const Movies = () => {
   const [allMovies, updateMovies] = useState([]);
@@ -81,6 +82,9 @@ const Movies = () => {
         ></ListGroup>
       </div>
       <div className='col-md-9'>
+        <Link className='btn btn-primary mb-4' to='/movies/new'>
+          New Movie
+        </Link>
         <p>
           {totalCount === 0
             ? 'There are no movies in the database'
