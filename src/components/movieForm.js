@@ -37,7 +37,6 @@ class MovieForm extends Form {
 
     const movieId = this.props.match.params.id;
 
-    console.log(movieId);
     if (movieId === 'new') return;
 
     const movie = getMovie(movieId);

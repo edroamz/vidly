@@ -7,6 +7,7 @@ import { compareValues } from '../utils/compare';
 import { getMovies } from '../services/fakeMovieService';
 import { getGenres } from '../services/fakeGenreService';
 import { Link } from 'react-router-dom';
+import SearchBox from './common/searchBox';
 
 const Movies = () => {
   const [allMovies, updateMovies] = useState([]);
@@ -14,6 +15,7 @@ const Movies = () => {
     path: 'title',
     order: 'asc'
   });
+  const [searchQuery, updateSearch] = useState('');
   const [genres, updateGenres] = useState([]);
   const [currentPage, changeCurrentPage] = useState(1);
   const [selectedGenre, changeSelectedGenre] = useState({});
@@ -43,19 +45,28 @@ const Movies = () => {
   function handleGenreSelect(genre) {
     changeSelectedGenre(genre);
     changeCurrentPage(1);
+    updateSearch('');
   }
 
   function handleSort(sortColumn) {
     changeSortedColumn(sortColumn);
   }
 
+  function handleSearch(query) {
+    updateSearch(query);
+    changeCurrentPage(1);
+    changeSelectedGenre(null);
+  }
+
   function getPagedData() {
-    const filtered =
-      selectedGenre &&
-      selectedGenre._id &&
-      Object.entries(selectedGenre).length > 0
-        ? allMovies.filter(m => m.genre._id === selectedGenre._id)
-        : allMovies;
+    let filtered = allMovies;
+
+    if (searchQuery)
+      filtered = allMovies.filter(
+        m => m.title.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1
+      );
+    else if (selectedGenre && selectedGenre._id)
+      filtered = allMovies.filter(m => m.genre._id === selectedGenre._id);
 
     const sorted = filtered.sort(
       compareValues(sortColumn.path, sortColumn.order)
@@ -90,6 +101,7 @@ const Movies = () => {
             ? 'There are no movies in the database'
             : `Showing ${totalCount} movies in the database`}
         </p>
+        <SearchBox value={searchQuery} onChange={handleSearch}></SearchBox>
         <MoviesTable
           movies={movies}
           sortColumn={sortColumn}
