@@ -4,8 +4,8 @@ import Pagination from './common/pagination';
 import ListGroup from './common/listGroup';
 import { paginate } from '../utils/paginate';
 import { compareValues } from '../utils/compare';
-import { getMovies } from '../services/fakeMovieService';
-import { getGenres } from '../services/fakeGenreService';
+import { getMovies, deleteMovie } from '../services/movieService';
+import { getGenres } from '../services/genreService';
 import { Link } from 'react-router-dom';
 import SearchBox from './common/searchBox';
 
@@ -21,14 +21,31 @@ const Movies = () => {
   const [selectedGenre, changeSelectedGenre] = useState({});
 
   useEffect(() => {
-    updateMovies(getMovies());
+    const fetchData = async () => {
+      const { data: movies } = await getMovies();
+      updateMovies(movies);
 
-    const genres = [{ name: 'AllGenres', _id: 0 }, ...getGenres()];
-    updateGenres(genres);
+      const { data } = await getGenres();
+      const genres = [{ name: 'AllGenres', _id: 0 }, ...data];
+      updateGenres(genres);
+    };
+
+    fetchData();
   }, []);
 
-  function handleDelete(movie) {
-    updateMovies(allMovies.filter(m => m._id !== movie._id));
+  async function handleDelete(movie) {
+    const originalMovies = allMovies;
+    updateMovies(originalMovies.filter(m => m._id !== movie._id));
+
+    try {
+      await deleteMovie(movie._id);
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404) {
+        alert('this movie has already been deleted');
+
+        updateMovies(originalMovies);
+      }
+    }
   }
 
   function handleLike(movie) {
