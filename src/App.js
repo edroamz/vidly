@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
 import NavBar from './components/navBar';
 import Movies from './components/movies';
 import MovieForm from './components/movieForm';
@@ -8,18 +9,30 @@ import Customers from './components/customers';
 import NotFound from './components/notFound';
 import LoginForm from './components/loginForm';
 import RegisterForm from './components/registerForm';
+import Logout from './components/logout';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 
 function App() {
+  const [user, updateUser] = useState(null);
+
+  useEffect(() => {
+    try {
+      const jwt = localStorage.getItem('token');
+      const u = jwtDecode(jwt);
+      updateUser(u);
+    } catch (ex) {}
+  }, []);
+
   return (
     <>
-      <NavBar></NavBar>
+      <NavBar user={user}></NavBar>
       <main className='main'>
         <div className='row mt-5'>
           <Switch>
             <Route path='/register' component={RegisterForm}></Route>
             <Route path='/login' component={LoginForm}></Route>
+            <Route path='/logout' component={Logout}></Route>
             <Route path='/movies/:id' component={MovieForm}></Route>
             <Route path='/movies' component={Movies}></Route>
             <Route path='/customers' component={Customers}></Route>
