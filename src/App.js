@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
 import { Route, Switch, Redirect } from 'react-router-dom';
+import ProtectedRoute from './components/common/protectedRoute';
 import NavBar from './components/navBar';
 import Movies from './components/movies';
 import MovieForm from './components/movieForm';
@@ -33,8 +34,14 @@ function App() {
             <Route path='/register' component={RegisterForm}></Route>
             <Route path='/login' component={LoginForm}></Route>
             <Route path='/logout' component={Logout}></Route>
-            <Route path='/movies/:id' component={MovieForm}></Route>
-            <Route path='/movies' component={Movies}></Route>
+            <ProtectedRoute
+              path='/movies/:id'
+              component={MovieForm}
+            ></ProtectedRoute>
+            <Route
+              path='/movies'
+              render={props => <Movies {...props} user={user} />}
+            ></Route>
             <Route path='/customers' component={Customers}></Route>
             <Route path='/rentals' component={Rentals}></Route>
             <Route path='/not-found' component={NotFound}></Route>

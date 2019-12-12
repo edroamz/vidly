@@ -10,7 +10,7 @@ import { getGenres } from '../services/genreService';
 import { Link } from 'react-router-dom';
 import SearchBox from './common/searchBox';
 
-const Movies = () => {
+const Movies = ({ user }) => {
   const [allMovies, updateMovies] = useState([]);
   const [sortColumn, changeSortedColumn] = useState({
     path: 'title',
@@ -43,9 +43,9 @@ const Movies = () => {
     } catch (ex) {
       if (ex.response && ex.response.status === 404) {
         toast.error('this movie has already been deleted');
-
-        updateMovies(originalMovies);
       }
+
+      updateMovies(originalMovies);
     }
   }
 
@@ -111,9 +111,11 @@ const Movies = () => {
         ></ListGroup>
       </div>
       <div className='col-md-9'>
-        <Link className='btn btn-primary mb-4' to='/movies/new'>
-          New Movie
-        </Link>
+        {user && (
+          <Link className='btn btn-primary mb-4' to='/movies/new'>
+            New Movie
+          </Link>
+        )}
         <p>
           {totalCount === 0
             ? 'There are no movies in the database'
