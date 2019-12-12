@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import jwtDecode from 'jwt-decode';
 import NavBar from './components/navBar';
 import Movies from './components/movies';
 import MovieForm from './components/movieForm';
@@ -10,6 +9,7 @@ import NotFound from './components/notFound';
 import LoginForm from './components/loginForm';
 import RegisterForm from './components/registerForm';
 import Logout from './components/logout';
+import auth from './services/authService';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 
@@ -17,11 +17,8 @@ function App() {
   const [user, updateUser] = useState(null);
 
   useEffect(() => {
-    try {
-      const jwt = localStorage.getItem('token');
-      const u = jwtDecode(jwt);
-      updateUser(u);
-    } catch (ex) {}
+    const u = auth.getCurrentUser();
+    updateUser(u);
   }, []);
 
   return (
