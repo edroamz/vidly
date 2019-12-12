@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { ToastContainer } from 'react-toastify';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import NavBar from './components/navBar';
 import Movies from './components/movies';
@@ -11,6 +12,7 @@ import RegisterForm from './components/registerForm';
 import Logout from './components/logout';
 import auth from './services/authService';
 import 'bootstrap/dist/css/bootstrap.css';
+import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
 function App() {
@@ -23,6 +25,7 @@ function App() {
 
   return (
     <>
+      <ToastContainer></ToastContainer>
       <NavBar user={user}></NavBar>
       <main className='main'>
         <div className='row mt-5'>
