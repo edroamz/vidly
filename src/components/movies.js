@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import MoviesTable from './moviesTable';
 import Pagination from './common/pagination';
 import ListGroup from './common/listGroup';
@@ -41,7 +42,7 @@ const Movies = () => {
       await deleteMovie(movie._id);
     } catch (ex) {
       if (ex.response && ex.response.status === 404) {
-        alert('this movie has already been deleted');
+        toast.error('this movie has already been deleted');
 
         updateMovies(originalMovies);
       }
