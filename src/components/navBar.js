@@ -5,7 +5,7 @@ const NavBar = ({ user }) => {
   return (
     <nav className='navbar navbar-expand-lg navbar-light bg-light'>
       <Link className='navbar-brand' to='/'>
-        Muby
+        Vidly
       </Link>
       <button
         className='navbar-toggler'
