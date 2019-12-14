@@ -86,6 +86,8 @@ const Movies = ({ user }) => {
     else if (selectedGenre && selectedGenre._id)
       filtered = allMovies.filter(m => m.genre._id === selectedGenre._id);
 
+    console.log(filtered);
+
     const sorted = filtered.sort(
       compareValues(sortColumn.path, sortColumn.order)
     );
